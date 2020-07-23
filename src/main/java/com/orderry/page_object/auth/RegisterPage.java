@@ -6,40 +6,43 @@ import static com.orderry.page_object.project.ProjectElements.SUBMIT_BUTTON;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.github.javafaker.Faker;
+
+import com.orderry.helper.randomizer.RandomTestData;
+import com.orderry.helper.system.properties.PropertiesLoader;
+
+import java.io.IOException;
 
 public class RegisterPage {
+    PropertiesLoader properties = new PropertiesLoader();
+    RandomTestData testData = new RandomTestData();
 
-    String login = String.format("%s_%s_%s@mail.com",
-            new Faker().name().firstName().toLowerCase(),
-            new Faker().lorem().characters(2).toLowerCase(),
-            new Faker().name().lastName()).toLowerCase();
-    String password = "12345";
-    String firstName = String.format("%s", new Faker().name().firstName());
-    String lastName = String.format("%s", new Faker().name().lastName());
-    String company = String.format("%s", new Faker().commerce().department());
-    String country = "UA";
-    String city = "Київ";
-    String phone = "0000000000";
-    String templateName = "2";
+    String email = testData.getRandomEmail();
+    String password = properties.getAuthProperty("password");
+    String firstName = testData.getRandomFirstName();
+    String lastName = testData.getRandomLastName();
+    String company = testData.getRandomCompany();
+    String country = properties.getAuthProperty("country");
+    String city = properties.getAuthProperty("city");
+    String phone = properties.getAuthProperty("phone");
+    String templateName = properties.getAuthProperty("templateName");
 
-    public RegisterPage() {
+    public RegisterPage() throws IOException {
         new AuthPage().goToRegisterPage();
-        EMAIL_INPUT.get().setValue(this.login);
+        EMAIL_INPUT.get().setValue(this.email);
         PASSWORD_INPUT.get().setValue(this.password);
         submitForm1();
         FORM_2.get().shouldBe(Condition.visible);
     }
 
-    public RegisterPage(String login) {
-        EMAIL_INPUT.get().setValue(login);
+    public RegisterPage(String email) throws IOException {
+        EMAIL_INPUT.get().setValue(email);
         PASSWORD_INPUT.get().setValue(this.password);
         submitForm1();
         FORM_2.get().shouldBe(Condition.visible);
     }
 
-    public RegisterPage(String login, String password) {
-        EMAIL_INPUT.get().setValue(login);
+    public RegisterPage(String email, String password) throws IOException {
+        EMAIL_INPUT.get().setValue(email);
         PASSWORD_INPUT.get().setValue(password);
         submitForm1();
         FORM_2.get().shouldBe(Condition.visible);

@@ -1,7 +1,5 @@
 package com.orderry.page_object.auth;
 
-import com.codeborne.selenide.Condition;
-
 import static com.codeborne.selenide.Selenide.open;
 import static com.orderry.page_object.auth.AuthPageElements.*;
 import static com.orderry.page_object.project.ProjectElements.SUBMIT_BUTTON;
